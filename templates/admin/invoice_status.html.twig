@@ -1,0 +1,10 @@
+
+{# value correspond a 'status' du fichier easy_admin.yaml, au niveau des Factures bien sur #}
+
+{% if value == "PAID" %}
+    <span class="badge badge-success">Payée</span>
+{% elseif value == "SENT" %}
+    <span class="badge badge-primary">Envoyée</span>
+{% else %}
+    <span class="badge badge-warning">Annulée</span>
+{% endif %}

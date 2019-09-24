@@ -1,0 +1,72 @@
+easy_admin:
+
+   user:
+    name_property_path: "email"
+    avatar_property_path: "avatar"
+
+   design:
+     menu:
+      #  - { entity: "Utilisateurs", label: "Les utilisateurs", icon: "users", permission: "ROLE_SUPER_ADMIN" }
+       - { entity: "Utilisateurs", label: "Les utilisateurs", icon: "users" }
+       - label: "Comptabilité"
+         children:
+          - { entity: "Clients", label: "Les clients", icon: "user" }
+          - Factures
+
+   formats:
+    date: "d/m/Y"
+    time: "H:i"
+    datetime: "d/m/Y H:i:s"
+
+   entities:
+       # List the entity class name you want to manage
+      #  - App\Entity\Product
+      #  - App\Entity\Category
+
+      #  - App\Entity\User
+      #  - App\Entity\Customer
+      #  - App\Entity\Invoice
+
+      Utilisateurs:
+        class: App\Entity\User
+        list: 
+          title: "Liste des utilisateurs inscrits"
+          help: "Gérez ici les utilisateurs de l'application angular"
+          fields:
+            - id
+            # - { property: "avatar", type: "image" }
+            - { property: "avatar", type: "avatar", is_image_url: "true" }
+            - { property: "email", label: "Adresse email", type: "email" }
+            - { property: "customers", label: "Nombre de clients" }
+          actions:
+            - { name: "edit", label: false, icon: "pencil", css_class: 'btn btn-primary' }
+            - { name: "delete", label: false, icon: "trash", css_class: 'btn btn-danger' }
+
+      Clients:
+        class:  App\Entity\Customer
+
+      Factures:
+       class: App\Entity\Invoice
+       form:
+        fields:
+          - { property: "amount", label: "Montant", type: "money" }
+          - { property: "status", label: "Statut", type: "choice", type_options: { choices: {
+            Envoyée: "SENT", Payée: "PAID", Annulée: "CANCELLED" }} }
+          - { property: "customer", label: "Client concerné" }
+          - { property: "sentAt", label: "Date d'envoie", type: "date", type_options: { widget: "single_text" } }
+       list:
+         title: "Liste des factures de vos utilisateurs"
+         fields:
+           - id
+           - { property: "amount", label: "Montant", template: "admin/amount.html.twig" }
+           - {
+               property: "status",
+               label: "Statut",
+               template: "admin/invoice_status.html.twig",
+             }
+           - { property: "sentAt", label: "Date d'envoi" }
+           - { property: "customer", label: "Client concerncé" }
+         actions:
+          - { name: "edit", label: false, icon: "pencil", css_class: 'btn btn-primary' }
+          - { name: "delete", label: false, icon: "trash", css_class: 'btn btn-danger' }
+
